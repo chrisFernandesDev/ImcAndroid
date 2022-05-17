@@ -57,7 +57,11 @@ public class ImcActivity extends AppCompatActivity {
 
     private boolean alertErro() {
         if (!validate()) {
-            Toast.makeText(ImcActivity.this, R.string.fields_message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.fields_message, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!validateQtdPeso()){
+            Toast.makeText(this, R.string.fields_message, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -118,15 +122,15 @@ public class ImcActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
+        return (!editHeight.getText().toString().isEmpty() && !editWeight.getText().toString().isEmpty());
+    }
+
+    private boolean validateQtdPeso(){
         String sWeight = editWeight.getText().toString();
 
         int weight = Integer.parseInt(sWeight);
 
-        return (
-                !editHeight.getText().toString().isEmpty()
-                        && !editWeight.getText().toString().isEmpty()
-                        && weight > 0
-                        && weight < 250);
+        return (weight > 0 && weight < 250);
     }
 
 }
