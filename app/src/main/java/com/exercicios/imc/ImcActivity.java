@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -41,7 +42,8 @@ public class ImcActivity extends AppCompatActivity {
         });
     }
 
-    private double getDados() {
+
+    private double getDadosUser() {
         String sHeight = editHeight.getText().toString();
         String sWeight = editWeight.getText().toString();
 
@@ -49,8 +51,8 @@ public class ImcActivity extends AppCompatActivity {
         int weight = Integer.parseInt(sWeight);
 
         double result = calculateIMC(height, weight);
-
         return result;
+
     }
 
     private boolean alertErro() {
@@ -62,7 +64,7 @@ public class ImcActivity extends AppCompatActivity {
     }
 
     private void alertDialog() {
-        double result = getDados();
+        double result = getDadosUser();
         int imcResponseId = respostaIMC(result);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -88,7 +90,7 @@ public class ImcActivity extends AppCompatActivity {
             return;
         }
 
-        getDados();
+        getDadosUser();
         alertDialog();
     }
 
@@ -115,12 +117,16 @@ public class ImcActivity extends AppCompatActivity {
             return R.string.imc_extreme_weight;
     }
 
-
     private boolean validate() {
+        String sWeight = editWeight.getText().toString();
+
+        int weight = Integer.parseInt(sWeight);
+
         return (
-                !editHeight.getText().toString().startsWith("0")
-                        && !editWeight.getText().toString().startsWith("0") &&
-                        !editHeight.getText().toString().isEmpty()
-                        && !editWeight.getText().toString().isEmpty());
+                !editHeight.getText().toString().isEmpty()
+                        && !editWeight.getText().toString().isEmpty()
+                        && weight > 0
+                        && weight < 250);
     }
+
 }
